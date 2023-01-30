@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+  }
+  
+  button {
+    width: 200px;
+  }
+  
+  .modal {
+    width: 50%;
+    height: 40%;
+    padding: 1.5em;
+    position: absolute;
+    float: left;
+    right: 50%;
+    bottom: 50%;
+    transform: translate(50%, 50%);
+    background: teal;
+    visibility: visible;
+    color: white;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
