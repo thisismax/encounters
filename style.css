@@ -1,3 +1,55 @@
+body {
+  background-color: lightgray;
+  margin: 10px;
+}
+
+nav {
+  display: flex;
+  background-color: gray;
+  color: white;
+}
+
+.navitem {
+  margin: 10px;
+  color: white;
+}
+
+.message {
+  padding-left: 10px;
+  background-color: black;
+  display: block;
+  color: white;
+}
+
+main {
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 10px;
+}
+
+section {
+  padding: 1%;
+  display: flex;
+  justify-content: center;
+}
+
+table {
+  padding: 1% 5% 1% 5%;
+  text-align: center;
+}
+
+.tableCaption {
+  padding-top: 1%;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+
 .container {
     display: flex;
     gap: 0.5rem;
