@@ -6,39 +6,236 @@
   <meta name="viewport" content="width=device-width">
   <title>replit</title>
   <link href="style.css" rel="stylesheet" type="text/css" />
+  <script src="script.js"></script>
 </head>
 
 <body>
 
-Hello from Replit and VS Code.
+  <nav>
+    <a class="navitem" href="/">Home</a>
+    <a class="navitem" href="/combat">Combat</a>    
+    <a class="navitem" href="/manageCombats">Manage Combats</a>
+    <a class="navitem" href="/logout">Logout</a>
+    <a class="navitem" href="/login">Login</a>
+    <a class="navitem" href="/sign-up">Sign-up</a>
+    <form class="navitem" method="POST">
+        <label for="username" />
+        <input 
+            type="text"
+            id="username"
+            name="username"
+            placeholder="username"
+        />
+        <button type="add">Login</button>
+    </form>
+  </nav>
 
-<div class="container">
-  <button id="show-text" type="button">Set text content</button>
-  <button id="hide-text" type="button">Clear text content</button>
-</div>
+  <!-- flashed message box -->
+  <!-- <label class="message">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+              {% for category,message in messages %}
+                  {{ message }}<br>
+              {% endfor %}
+          {% endif %}
+      {% endwith %}
+  </label> -->
 
-  <div class="modal">
-    <h3>Add a new pasta dish</h3>
-    <table>
-      <tr>
-        <th>Company</th>
-        <th>Contact</th> 
-        <th>Country</th>
-      </tr>
-      <tr>
-        <td>Alfreds Futterkiste</td>
-        <td>Maria Anders</td> 
-        <td>Germany</td>
-      </tr>
-      <tr>
-        <td>Centro comercial Moctezuma</td>
-        <td>Francisco Chang</td> 
-        <td>Mexico</td>
-      </tr>
-    </table>
-  </div>
+  <main>
 
-  <script src="script.js"></script>  
+    <section id="welcome">
+      Welcome to encounters<br/>
+
+      Here you can easily manage initiative at a table or on a VTT.<br/>
+      As long as you don't mind using a browser.
+    </section>
+  
+    <section id="combat">
+
+      <section>
+        Combat: combat.combatName
+      </section>
+
+      <section>
+        <form method="POST">
+            <input type="hidden" name="combatantForm" value="addCombatant"/>
+            <label for="combatantName">Combatant Name</label>
+            <input 
+                type="text"
+                id="combatantName"
+                name="combatantName"
+                placeholder="Combatant Name"
+            />
+            <label for="initiative">Initiative</label>
+            <input 
+                type="number"
+                id="initiative"
+                name="initiative"
+                placeholder="0"
+            />
+            <input 
+                type="radio"
+                id="radioBonus"
+                name="initiativeType"
+                value = "radioBonus"
+            />
+            <label for="radioBonus">Bonus</label>
+            <input 
+                type="radio"
+                id="radioTotal"
+                name="initiativeType"
+                value = "radioTotal"
+            />
+            <label for="radioTotal">Total</label>
+            <button type="add">Add</button>
+        </form>
+      </section>
+
+      <section>
+        <form method="POST">
+            <input type="hidden" name="combatantForm" value="runCombat"/>
+            <input type="submit" name="rollInitiative" value="Roll Initiative" />
+            <input type="submit" name="nextCombatant" value="Next" />
+        </form>
+      </section>
+
+      <section>
+          <table>
+              <caption class="tableCaption">Combatants</caption>
+              <thead>
+                  <tr>
+                      <th></th>
+                      <th>Combatant</th>
+                      <th>Initiative Bonus</th>
+                      <th>Initiative</th>
+                      <th>Total Damage</th>
+                      <th>Damage</th>
+                      <th>Move Up</th>
+                      <th>Move Down</th>
+                      <th>Delete</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  for combatant in combat.combatants|sort(attribute="combatPosition",reverse=True)
+                      <tr>
+                          <form method="POST">
+                              <input type="hidden" name="combatantForm" value="editCombatant"/>
+                              <input type="hidden" name="combatantId" value="{{combatant.id}}"/>
+                              <td>
+                                  {% if combatant.active %}
+                                      Active
+                                  {% endif %}
+                              </td>
+                              <td>combatant.combatantName</td>
+                              <td>combatant.initiativeBonus</td>
+                              <td>combatant.combatPosition|int</td>
+                              <td>combatant.damage</td>
+                              <td>
+                                  <input 
+                                      type="number"
+                                      id="addDamage"
+                                      name="addDamage"
+                                      placeholder=0
+                                  />
+                                  <input type="submit" name="addDamage" value="Add Damage" />
+                              </td>
+                              <td><input type="submit" name="changePosition" value="Up" /></td>
+                              <td><input type="submit" name="changePosition" value="Down" /></td>
+                              <td><input type="submit" name="delete" value="Delete" /></td>
+
+                          </form>
+                      </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </section>
+        % else %
+      <section>
+          Enter Combat ID:<br>
+          There should be a text box here to enter the combat key.<br>
+          Or something.
+      </section>
+
+    </section>
+
+    <section id="manage-combats">
+      <section>
+        <form name="addCombat" method="POST">
+            <label for="combatName">Combat Name</label>
+            <input 
+                type="text"
+                id="combatName"
+                name="combatName"
+                placeholder="Combat Name"
+                required
+            />
+            <button type="add">Add New Combat</button>
+        </form>
+      </section>
+      
+      <section>
+          <table>
+              <caption class="tableCaption">List of your combats.</caption>
+              <thead>
+                  <tr>
+                      <th>Combat Name</th>
+                      <th>ID</th>
+                      <th>Number of Combatants</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  for combat in user.combats
+                  <!-- this does not handle a long list of combats (yet?) -->
+                      <tr>
+                          <td>combat.combatName</td>
+                          <td><a href="/combat/{{ combat.combat_key }}">combat.combat_key</a></td>
+                          <td>combat.getCombatCount()</td>
+                      </tr>
+                  endfor
+              </tbody>
+          </table>
+      </section>
+    </section>
+
+    <section id="modal">
+      Hello from Replit and VS Code.
+  
+      <div class="container">
+        <button id="show-text" type="button">Set text content</button>
+        <button id="hide-text" type="button">Clear text content</button>
+      </div>
+  
+      <div class="modal">
+        <h3>Add a new pasta dish</h3>
+        <table>
+          <tr>
+            <th>Company</th>
+            <th>Contact</th> 
+            <th>Country</th>
+          </tr>
+          <tr>
+            <td>Alfreds Futterkiste</td>
+            <td>Maria Anders</td> 
+            <td>Germany</td>
+          </tr>
+          <tr>
+            <td>Centro comercial Moctezuma</td>
+            <td>Francisco Chang</td> 
+            <td>Mexico</td>
+          </tr>
+        </table>
+      </div>
+  
+    </section> 
+  
+  </main>
+
+  <footer>
+      created by thisismax<br>
+      all rights reserved<br>
+      copyright 2022
+  </footer>
+
 </body>
 
 </html>
